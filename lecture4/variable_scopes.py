@@ -15,7 +15,7 @@ def triple(n):
 def main():
     users = 3
     square_users = squareNumber(users)
-    print(bananas)  #  uncomment this and you'll get an error. The variable bananas doesn't exist in this scope
+    # print(bananas)  #  uncomment this and you'll get an error. The variable bananas doesn't exist in this scope
     print(square_users)  # the users variable from the main method scope is used
 
 
