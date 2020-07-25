@@ -27,6 +27,11 @@ enemyY = random.randint(64, 100)
 enemyDeltaX = 2
 enemyDeltaY = 40
 
+# bullet
+bulletImg = pygame.image.load('laser.png')
+bulletY = playerY
+bulletState = 'ready'  # ready - can't see; fire - laser is moving
+
 
 def createPlayer(x, y):
     # draw player image on screen
@@ -34,7 +39,13 @@ def createPlayer(x, y):
 
 
 def createEnemy(x, y):
-    screen.blit(enemyImg, (x,y))
+    screen.blit(enemyImg, (x, y))
+
+
+def shoot(x, y):
+    global bulletState
+    bulletState = 'fire'
+    screen.blit(bulletImg, (x, y))
 
 
 running = True  # variable to hold the status of the game; if it's running or not
@@ -62,9 +73,23 @@ while running:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 playerDeltaX = 0
 
+            if event.key == pygame.K_SPACE and bulletState == 'ready':
+                # get x position then fire bullet
+                bulletX = playerX + 16
+                shoot(bulletX, bulletY)
+
     playerX += playerDeltaX  # update position of player
 
-    enemyX += enemyDeltaX # move enemy horizontally
+    enemyX += enemyDeltaX  # move enemy horizontally
+
+    # bullet movement
+    if bulletY <= -32:
+        bulletY = playerY
+        bulletState = 'ready'
+
+    if bulletState == 'fire':
+        shoot(bulletX, bulletY)
+        bulletY -= 4
 
     # set boundaries
     if playerX >= 536:
